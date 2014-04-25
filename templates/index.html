@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style type="text/css">
+    .page-subheader {
+        margin-left: 10px;
+    }
+    #videoWrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        padding-top: 25px;
+        height: 0;
+    }
+    #videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #overlay {
+        position:fixed;
+        top:0px;
+        left:0px;
+        width:100%;
+        height:100%;
+        background:rgba(255,255,255,0.0);
+        z-index:50;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Sam Gnesin<small class="page-subheader">Master Designer</small></h1>
+<!-- <div class="row">
+    <div class="col-md-10">
+        <h1 class="page-header">Sam Gnesin<small class="page-subheader">Master Designer</small></h1>
+    </div>
+    <div class="col-md-2">
+        <a href="/blog" class="btn btn-primary btn-lg btn-block page-header" role="button">Blog</a>
+    </div>
+</div> -->
+<div id="videoWrapper">
+    <iframe width="560" height="315" src="//www.youtube.com/embed/moSFlvxnbgk?start=183&end=214&autoplay=1&controls=0&showinfo=0&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3&loop=1&playlist=moSFlvxnbgk&wmode=opaque" frameborder="0"></iframe>
+</div>
+<div id="overlay">
+    <h1 id="flashing-text" style="display: none; font-size:64px; font-weight:bold;">SAM</h1>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    var flag = false;
+    function flashText() {
+        if (flag) {
+            $("#flashing-text").hide();
+            flag = false;
+        } else {
+            var minTop = $("#videoWrapper").offset().top,
+                minLeft = $("#videoWrapper").offset().left,
+                maxTop = minTop + $("#videoWrapper").outerHeight() - $("#flashing-text").height(),
+                maxLeft = minLeft + $("#videoWrapper").outerWidth() - 80;
+            var top = Math.ceil(Math.random() * (maxTop-minTop)) + minTop,
+                left = Math.ceil(Math.random() * (maxLeft-minLeft)) + minLeft;
+            $("#flashing-text").css({ "margin-top": top + "px", "margin-left": left + "px" });
+            $("#flashing-text").show();
+            flag = true;
+        }
+    };
+    $(function() {
+        var tid = setInterval(flashText, 100);
+    });
+</script>
+{% endblock %}
